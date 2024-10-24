@@ -230,7 +230,7 @@ public class MyLinkedList
         first = null;
         size = 0;
     }
-
+// Just to get it to push
     /**
      * Returns <code>true</code> if this list has no elements.
      * @return true if this list is empty
