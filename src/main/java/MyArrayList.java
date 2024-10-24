@@ -19,13 +19,17 @@
 public class MyArrayList
 {
     private Integer[] list;
-
+    private int size;
     /**
      * Constructs an empty list with an initial capacity of ten.
      */
     public MyArrayList() {
         list = new Integer[10];
+        size = 0;
         // TODO: you can add code here
+        for (int i = 0; i < list.length; i++) {
+            list[i] = i + 1; // Assign values 1 through 10
+        }
     }
 
     /**
@@ -35,6 +39,14 @@ public class MyArrayList
      */
     public void addLast(Integer item) {
         // TODO: your code goes here
+        if (item == null) {
+            throw new NullPointerException();
+        }
+        if (size == list.length) {
+            resize(); // Resize if the array is full
+        }
+        list[size] = item; // Add the item at the end
+        size++; // Increment the size
     }
 
     /**
@@ -47,17 +59,45 @@ public class MyArrayList
      */
     public void add(int index, Integer item) {
         // TODO: your code goes here
+        if (item == null) {
+            throw new NullPointerException();
+        }
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        if (size == list.length) {
+            resize(); // Resize if the array is full
+        }
+
+        for (int i = size; i > index; i--) {
+            list[i] = list[i - 1];
+        }
+
+        list[index] = item;
+        size++;
     }
 
     /**
      * Removes the Integer at the specified position in this list. Shifts any
      * subsequent Integers to the left (subtracts one from their indices).
+     *
      * @param index the index of the element to remove
-     * @return the element that was removed from the list
      */
-    public Integer remove(int index) {
+    public void remove(int index) {
         // TODO: modify the code here
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        // Shift elements to the left
+        for (int i = index; i < size - 1; i++) {
+            list[i] = list[i + 1];
+        }
+
+        //list[size - 1] = null;  Nullify the last element (optional)
+        size--;
+
     }
 
     /**
@@ -67,7 +107,10 @@ public class MyArrayList
      */
     public Integer get(int index) {
         // TODO: modify the code here
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        return list[index];
     }
 
     /**
@@ -79,15 +122,22 @@ public class MyArrayList
      */
     public void set(int index, Integer item) {
         // TODO: your code goes here
-    }
+        if (item == null) {
+            throw new NullPointerException();
+        }
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
 
+        list[index] = item;
+    }
     /**
      * Returns the number of Integers in this list.
      * @return the number of Integers in this list
      */
     public int size() {
         // TODO: modify the code here
-        return 0;
+        return size;
     }
 
     /**
@@ -100,8 +150,16 @@ public class MyArrayList
      */
     public int indexOf(Integer item) {
         // TODO: modify the code here
-        return 0;
-    }
+            if (item == null) {
+                throw new NullPointerException();
+            }
+            for (int i = 0; i < size; i++) {
+                if (list[i].equals(item)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
     /**
      * Returns <code>true</code> if this list contains the specified Integer.
@@ -111,6 +169,14 @@ public class MyArrayList
      */
     public boolean contains(Integer item) {
         // TODO: modify the code here
+        if (item == null) {
+            throw new NullPointerException();
+        }
+        for (int i = 0; i < size; i++) {
+            if (list[i].equals(item)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -120,6 +186,10 @@ public class MyArrayList
      */
     public void clear() {
         // TODO: your code goes here
+        for (int k = 0; k < size; k++) { // Iterate from 0 to size
+            list[k] = null; // Clear each element
+        }
+        size = 0; // Reset size to 0
     }
 
     /**
@@ -128,6 +198,13 @@ public class MyArrayList
      */
     public boolean isEmpty() {
         // TODO: modify the code here
-        return false;
+        return size == 0;
+    }
+
+// To prevent the list from filling up
+    private void resize() {
+        Integer[] newList = new Integer[list.length * 2]; // Double the capacity
+        System.arraycopy(list, 0, newList, 0, list.length); // Copy the old array to the new one
+        list = newList; // Replace the old array with the new one
     }
 }
