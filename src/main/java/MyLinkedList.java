@@ -89,6 +89,7 @@ public class MyLinkedList
 
         if (index == 0) {
             addFirst(item);
+            return;
         }
         Node newNode = new Node(item);
         Node current = first;
@@ -113,6 +114,7 @@ public class MyLinkedList
         }
 
         Integer removedValue;
+
         if (index == 0) {
             removedValue = first.value;
             first = first.next;
